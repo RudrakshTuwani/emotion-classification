@@ -1,10 +1,68 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block body %}
 
-{% block body %}
-  <form action="/upload" method="post" enctype="multipart/form-data" >
-      <span class="btn btn-default btn-file">
-        Browse <input type="file" name="image">
-      </span>
+<a class="github-fork-ribbon" href="https://github.com/RudrakshTuwani/emotion-classification" data-ribbon="Fork me on GitHub" title="Fork me on GitHub" target="_blank">Fork me on GitHub</a>
 
-    <input type="submit" value="Upload your image" class="btn btn-primary">
+<div class="container-fluid pb-5 pt-5">
+    <h1 class="text-center">Emotion Classification</h1>
+    <p class="text-center">Welcome to the online demo for emotion classification using Deep Learning.</p>
+
+    <!-- Buttons -->
+    <div class="row">
+    	<div class="col-md-3 col-xs-1"></div>
+    	<div class="text-center btn-group btn-block mt-4 col-md-6">
+        	<a href="#about" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button">About</a>
+       		<a href="#predict" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button">Predict</a>
+       		<a href="https://github.com/RudrakshTuwani/emotion-classification" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button" target="_blank">Github</a>
+       	</div>
+        <div class="col-md-3 col-xs-1"></div>
+    </div>
+</div>
+
+
+<div class="container-fluid bg-dark text-white" id="about">	
+    <div class="row pb-5 pt-5">
+        <div class="col-md-6">
+            <img class="img-fluid" src="front-image.gif" style="width: 100%">
+        </div>
+        <div class="col-md-6">
+        	<h1 class="text-center">ABOUT</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis istud, quaeso, nesciebat? Aliter enim nosmet ipsos nosse non possumus. Quo plebiscito decreta a senatu est consuli quaestio Cn. Sed tempus est, si videtur, et recta quidem ad me. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Duo Reges: constructio interrete. Ut proverbia non nulla veriora sint quam vestra dogmata. Odium autem et invidiam facile vitabis. Itaque fecimus. Item de contrariis, a quibus ad genera formasque generum venerunt.
+            </p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis istud, quaeso, nesciebat? Aliter enim nosmet ipsos nosse non possumus. Quo plebiscito decreta a senatu est consuli quaestio Cn. Sed tempus est, si videtur, et recta quidem ad me. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Duo Reges: constructio interrete. Ut proverbia non nulla veriora sint quam vestra dogmata. Odium autem et invidiam facile vitabis. Itaque fecimus. Item de contrariis, a quibus ad genera formasque generum venerunt.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-5 pb-5" id=predict>
+	<div class="row pl-3 pr-3">
+
+		<div class="col-md-5">
+			<h1 class="text-center pb-3">PREDICT</h1>
+			<form action="/upload" method="post" enctype="multipart/form-data">
+			    <div class="form-group">
+			    	<label for="url">URL</label>
+			  	    <input type="url" class="form-control" id="url" placeholder="Enter URL">
+			  	</div>
+			    <p class="text-center">or<p>
+				<div class="form-group">
+					<input type="file" name="image" id="upload_image">
+			    </div>
+			    <button type="submit" class="btn btn-dark btn-block">Submit</button>
+			</form>
+			<br>
+		</div>
+
+		<div class="col-md-7">
+            <img class="img-fluid" src="placeholder.png" style="width: 100%">
+        </div>
+
+	</div>
+</div>
+<div class="container-fluid bg-dark pb-1 mt-2" id="about">
+	<p class="text-center text-white text-small pt-2">© <a href="http://rudrakshtuwani.me/" target="_blank" style="color: white;">Rudraksh Tuwani</a><br>
+		<i class="fab fa-github p-1" style="color: white;"></i>
+		<i class="fab fa-linkedin p-1" style="color: white;"></i>
+		<i class="fab fa-twitter p-1" style="color: white;"></i>
+	</p>
+</div>
 {% endblock %}
