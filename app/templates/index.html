@@ -4,14 +4,14 @@
 
 <div class="container-fluid pb-5 pt-5">
     <h1 class="text-center">Emotion Classification</h1>
-    <p class="text-center">Welcome to the online demo for emotion classification using Deep Learning.</p>
+    <p class="text-center">Welcome to the online demo for Emotion Classification using Deep Learning.</p>
 
     <!-- Buttons -->
     <div class="row">
     	<div class="col-md-3 col-xs-1"></div>
     	<div class="text-center btn-group btn-block mt-4 col-md-6">
         	<a href="#about" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button">About</a>
-       		<a href="#predict" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button">Predict</a>
+       		<a href="#predict" class="col-md-4 col-xs-1 btn btn-outline-dark js-scroll-trigger" role="button">Predict</a>
        		<a href="https://github.com/RudrakshTuwani/emotion-classification" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button" target="_blank">Github</a>
        	</div>
         <div class="col-md-3 col-xs-1"></div>
@@ -33,36 +33,42 @@
         </div>
     </div>
 </div>
-<div class="container-fluid pt-5 pb-5" id=predict>
+<div class="container-fluid pt-5 pb-5" id="predict">
 	<div class="row pl-3 pr-3">
-
 		<div class="col-md-5">
 			<h1 class="text-center pb-3">PREDICT</h1>
-			<form action="/upload" method="post" enctype="multipart/form-data">
+
+			<form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
 			    <div class="form-group">
-			    	<label for="url">URL</label>
-			  	    <input type="url" class="form-control" id="url" placeholder="Enter URL">
+			    	<label for="image_url">URL</label>
+			  	    <input type="image_url" class="form-control" id="image_url" placeholder="Enter URL">
 			  	</div>
 			    <p class="text-center">or<p>
 				<div class="form-group">
-					<input type="file" name="image" id="upload_image">
+					<input type="file" class="form-control-file" name="image" >
 			    </div>
 			    <button type="submit" class="btn btn-dark btn-block">Submit</button>
 			</form>
 			<br>
 		</div>
-
 		<div class="col-md-7">
-            <img class="img-fluid" src="placeholder.png" style="width: 100%">
+			{% if not image_file %}
+				<img class="img-fluid" src="placeholder.png" style="width: 100%">
+			{% else %}
+            <img class="img-fluid" src="{{ image_file }}" style="width: 100%">
+            {% endif %}
         </div>
 
 	</div>
 </div>
 <div class="container-fluid bg-dark pb-1 mt-2" id="about">
 	<p class="text-center text-white text-small pt-2">© <a href="http://rudrakshtuwani.me/" target="_blank" style="color: white;">Rudraksh Tuwani</a><br>
-		<i class="fab fa-github p-1" style="color: white;"></i>
-		<i class="fab fa-linkedin p-1" style="color: white;"></i>
-		<i class="fab fa-twitter p-1" style="color: white;"></i>
+		<a href="https://github.com/RudrakshTuwani" target="_blank"><i class="fab fa-github p-1" style="color: white;"></i></a>
+		<a href="https://www.linkedin.com/in/rudraksh-tuwani-888073bb/" target="_blank"><i class="fab fa-linkedin p-1" style="color: white;"></i></a>
+		<a href="https://medium.com/@rudrakshtuwani/latest" target="_blank"><i class="fab fa-medium-m p-1" style="color: white;"></i></a>
+		<a href="https://twitter.com/rudraksh_tuwani" target="_blank"><i class="fab fa-twitter p-1" style="color: white;"></i></a>
 	</p>
 </div>
+<div id="something">
+
 {% endblock %}
