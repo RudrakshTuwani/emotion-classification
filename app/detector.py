@@ -2,8 +2,9 @@ import face_recognition
 from PIL import Image, ImageDraw, ImageFont
 
 
-fnt = ImageFont.truetype('app/static/gillsans.ttf', size=12)
 rect_color = (244, 113, 66)
+fnt_sizes = {sz: ImageFont.truetype('app/static/gillsans.ttf', size=sz)
+             for sz in range(1, 72)}
 
 def detect_faces(image):
     """ Detects faces in the supplied image file """
@@ -21,7 +22,7 @@ def draw_rects(image, face_locations, emotions="Poker"):
     # Convert the image to a PIL-format image so that we can
     # draw on top of it with the Pillow library
     # See http://pillow.readthedocs.io/ for more about PIL/Pillow
-    pil_image = Image.fromarray(image[:,:,::-1])
+    pil_image = Image.fromarray(image[:, :, ::-1])
 
     # Create a Pillow ImageDraw Draw instance to draw with
     draw = ImageDraw.Draw(pil_image)
@@ -31,11 +32,14 @@ def draw_rects(image, face_locations, emotions="Poker"):
         draw.rectangle(((left, top), (right, bottom)), outline=rect_color)
 
         # Draw a label with a name below the face
-        text_width, text_height = draw.textsize(emotion)
-        draw.rectangle(((left, bottom - text_height + 25), (right, bottom)),
-                       fill=rect_color, outline=rect_color)
-        draw.text((left + 6, bottom - text_height + 13), "POKER", font=fnt,
-                  fill=(255, 255, 255, 255))
+        box_height = 0.1 * (bottom - top)
+        fnt = fnt_sizes[int(box_height)]
+        text_width, text_height = draw.textsize(emotion, font=fnt)
+
+        draw.rectangle(((left, bottom - box_height),
+                        (right, bottom)), fill=rect_color, outline=rect_color)
+        draw.text((left + 6, bottom - (0.9 * box_height)), "POKER",
+                  font=fnt, fill=(255, 255, 255, 255))
 
     del draw
 
