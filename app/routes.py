@@ -58,9 +58,6 @@ def upload_file():
         else:
             return redirect(url_for('index'))"""
 
-    for f in os.listdir('app/static/temp/'):
-        os.remove('app/static/temp/' + f)
-
     if 'image' in request.files:
         file = request.files['image']
         im = Image.open(BytesIO(file.read()))
@@ -71,6 +68,5 @@ def upload_file():
 
         return render_template('index.html', image_file=image_file,
                                scroll='predict')
-
     else:
         return redirect(url_for('index'))
