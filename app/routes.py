@@ -1,3 +1,4 @@
+import os
 import requests
 from PIL import Image
 from io import StringIO, BytesIO
@@ -5,8 +6,8 @@ import mimetypes
 from urllib.request import urlopen, Request
 import numpy as np
 import cv2
+import uuid
 from app import app
-from app import photos
 from flask import render_template, request, redirect, url_for
 from .detector import detect_faces, draw_rects
 
@@ -37,7 +38,7 @@ def check_url(url):
         response = urlopen(req)
         return response.code in range(200, 209)
 
-    except:
+    except Exception as e:
         return False
 
 
@@ -57,14 +58,19 @@ def upload_file():
         else:
             return redirect(url_for('index'))"""
 
+    for f in os.listdir('app/static/temp/'):
+        os.remove('app/static/temp/' + f)
+
     if 'image' in request.files:
         file = request.files['image']
         im = Image.open(BytesIO(file.read()))
         image = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
         pil_image = draw_rects(image, detect_faces(image))
-        pil_image.save('app/static/temp.jpg')
+        image_file = 'temp/' + uuid.uuid4().hex + '.jpg'
+        pil_image.save('app/static/' + image_file)
 
-        return render_template('index.html', image_file='temp.jpg', scroll='predict')
+        return render_template('index.html', image_file=image_file,
+                               scroll='predict')
 
     else:
         return redirect(url_for('index'))
