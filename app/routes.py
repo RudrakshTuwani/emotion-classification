@@ -1,21 +1,48 @@
-import os
 import requests
 from PIL import Image
-from io import StringIO, BytesIO
+from io import BytesIO
 import mimetypes
 from urllib.request import urlopen, Request
-import numpy as np
-import cv2
-import uuid
+from flask import render_template
+
 from app import app
-from flask import render_template, request, redirect, url_for
-from .detector import detect_faces, draw_rects
+from .forms import ImageForm
+from .detector import save_emotion_image
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 def index():
-    return render_template('index.html')
+    form = ImageForm()
+
+    if form.validate_on_submit():
+
+        # Get image and/or url data from form
+        file = form.image.data
+        url = form.url.data
+
+        # Process whatever input was submitted
+        if (file and allowed_file(file.filename)) or\
+           (url and is_image_and_ready(url)):
+
+            if file:
+                bytes_image = file.read()
+            else:
+                bytes_image = requests.get(url).content
+
+            img = Image.open(BytesIO(bytes_image))
+            img_file = save_emotion_image(img)
+
+            return render_template('index.html', image_file=img_file,
+                                   scroll='predict', form=form)
+
+    return render_template('index.html', form=ImageForm())
+
+
+def allowed_file(filename):
+    allowed_ext = app.config['ALLOWED_EXTENSIONS']
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in allowed_ext
 
 
 def is_url_image(url):
@@ -44,29 +71,3 @@ def check_url(url):
 
 def is_image_and_ready(url):
     return is_url_image(url) and check_url(url)
-
-
-@app.route('/upload_file', methods=['POST'])
-def upload_file():
-    """if request.get_data('image_url'):
-        url = request.get_data('image_url')
-        # Check if url is a valid image url
-        if is_image_and_ready(url):
-            r = requests.get(url)
-            img = Image.open(StringIO(r.content))
-            return 'Image Found!'
-        else:
-            return redirect(url_for('index'))"""
-
-    if 'image' in request.files:
-        file = request.files['image']
-        im = Image.open(BytesIO(file.read()))
-        image = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
-        pil_image = draw_rects(image, detect_faces(image))
-        image_file = 'temp/' + uuid.uuid4().hex + '.jpg'
-        pil_image.save('app/static/' + image_file)
-
-        return render_template('index.html', image_file=image_file,
-                               scroll='predict')
-    else:
-        return redirect(url_for('index'))

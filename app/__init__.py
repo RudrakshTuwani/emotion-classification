@@ -1,20 +1,18 @@
 import os
 from flask import Flask
-from flask_uploads import UploadSet, configure_uploads, IMAGES
-import torch
+from torch import load
 
-
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-UPLOADED_PHOTOS_DEST = 'uploads'
 
 app = Flask(__name__, static_url_path="")
-photos = UploadSet('photos', IMAGES)
-app.config['UPLOADED_PHOTOS_DEST'] = UPLOADED_PHOTOS_DEST
-app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
+app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
-configure_uploads(app, photos)
+
+# Form
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or\
+    'you-will-never-guess'
 
 # Load model
-model = torch.load('models/resnet34')
+model = load('models/resnet34')
 
 from app import routes

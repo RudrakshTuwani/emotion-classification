@@ -1,9 +1,9 @@
-import face_recognition
-from PIL import Image, ImageOps, ImageDraw, ImageFont
-import torch
-from torch.autograd import Variable
+import uuid
 import numpy as np
+import face_recognition
 import cv2
+from PIL import Image, ImageOps, ImageDraw, ImageFont
+from torch.autograd import Variable
 from torchvision import transforms
 from app import model
 
@@ -12,6 +12,18 @@ rect_color = (244, 113, 66)
 imgsize = 48, 48
 emotion_classes = ['Anger', 'Contempt', 'Disgust', 'Fear',
                    'Happiness', 'Neutral', 'Sadness', 'Surprise']
+
+
+def save_emotion_image(image):
+    """ Takes a PIL Image as input and saves an emotion
+    annotated copy, returning the filename of the copy """
+
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+    pil_image = draw_rects(image, detect_faces(image))
+    image_file = 'temp/' + uuid.uuid4().hex + '.jpg'
+    pil_image.save('app/static/' + image_file)
+
+    return image_file
 
 
 def detect_faces(image):

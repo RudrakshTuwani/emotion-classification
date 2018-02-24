@@ -1,74 +1,158 @@
-{% extends "base.html" %} {% block body %}
+<!DOCTYPE html>
+<html lang="en">
 
-<a class="github-fork-ribbon" href="https://github.com/RudrakshTuwani/emotion-classification" data-ribbon="Fork me on GitHub" title="Fork me on GitHub" target="_blank">Fork me on GitHub</a>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<div class="container-fluid pb-5 pt-5">
-    <h1 class="text-center">Emotion Classification</h1>
-    <p class="text-center">Welcome to the online demo for Emotion Classification using Deep Learning.</p>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!-- Buttons -->
-    <div class="row">
-    	<div class="col-md-3 col-xs-1"></div>
-    	<div class="text-center btn-group btn-block mt-4 col-md-6">
-        	<a href="#about" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button">About</a>
-       		<a href="#predict" class="col-md-4 col-xs-1 btn btn-outline-dark js-scroll-trigger" role="button">Predict</a>
-       		<a href="https://github.com/RudrakshTuwani/emotion-classification" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button" target="_blank">Github</a>
-       	</div>
-        <div class="col-md-3 col-xs-1"></div>
-    </div>
-</div>
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
+    <title>Emotion Classification</title>
 
-<div class="container-fluid bg-dark text-white" id="about">	
-    <div class="row pb-5 pt-5">
-        <div class="col-md-6">
-            <img class="img-fluid" src="front-image.gif" style="width: 100%">
-        </div>
-        <div class="col-md-6">
-        	<h1 class="text-center">ABOUT</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis istud, quaeso, nesciebat? Aliter enim nosmet ipsos nosse non possumus. Quo plebiscito decreta a senatu est consuli quaestio Cn. Sed tempus est, si videtur, et recta quidem ad me. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Duo Reges: constructio interrete. Ut proverbia non nulla veriora sint quam vestra dogmata. Odium autem et invidiam facile vitabis. Itaque fecimus. Item de contrariis, a quibus ad genera formasque generum venerunt.
-            </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis istud, quaeso, nesciebat? Aliter enim nosmet ipsos nosse non possumus. Quo plebiscito decreta a senatu est consuli quaestio Cn. Sed tempus est, si videtur, et recta quidem ad me. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Duo Reges: constructio interrete. Ut proverbia non nulla veriora sint quam vestra dogmata. Odium autem et invidiam facile vitabis. Itaque fecimus. Item de contrariis, a quibus ad genera formasque generum venerunt.
-            </p>
-        </div>
-    </div>
-</div>
-<div class="container-fluid pt-5 pb-5" id="predict">
-	<div class="row pl-3 pr-3">
-		<div class="col-md-5">
-			<h1 class="text-center pb-3">PREDICT</h1>
+    <!-- Bootstrap core CSS -->
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.2/gh-fork-ribbon.min.css" />
+  </head>
 
-			<form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
-			    <div class="form-group">
-			    	<label for="image_url">URL</label>
-			  	    <input type="image_url" class="form-control" id="image_url" placeholder="Enter URL">
-			  	</div>
-			    <p class="text-center">or<p>
-				<div class="form-group">
-					<input type="file" class="form-control-file" name="image" >
-			    </div>
-			    <button type="submit" class="btn btn-dark btn-block">Submit</button>
-			</form>
-			<br>
+  <body>
+
+		<a class="github-fork-ribbon" href="https://github.com/RudrakshTuwani/emotion-classification" data-ribbon="Fork me on GitHub" title="Fork me on GitHub" target="_blank">Fork me on GitHub</a>
+
+		<div class="container-fluid pb-5 pt-5">
+		    <h1 class="text-center">Emotion Classification</h1>
+		    <p class="text-center">Welcome to the online demo for Emotion Classification using Deep Learning.</p>
+
+		    <!-- Buttons -->
+		    <div class="row">
+		    	<div class="col-md-3 col-xs-1"></div>
+		    	<div class="text-center btn-group btn-block mt-4 col-md-6">
+		        	<a href="#about" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button">About</a>
+		       		<a href="#predict" class="col-md-4 col-xs-1 btn btn-outline-dark js-scroll-trigger" role="button">Predict</a>
+		       		<a href="https://github.com/RudrakshTuwani/emotion-classification" class="col-md-4 col-xs-1 btn btn-outline-dark" role="button" target="_blank">Github</a>
+		       	</div>
+		        <div class="col-md-3 col-xs-1"></div>
+		    </div>
 		</div>
-		<div class="col-md-7">
-			{% if not image_file %}
-				<img class="img-fluid" src="placeholder.png" style="width: 100%">
-			{% else %}
-            <img class="img-fluid" src="{{ image_file }}" style="width: 100%">
-            {% endif %}
-        </div>
 
-	</div>
-</div>
-<div class="container-fluid bg-dark pb-1 mt-2" id="about">
-	<p class="text-center text-white text-small pt-2">© <a href="http://rudrakshtuwani.me/" target="_blank" style="color: white;">Rudraksh Tuwani</a><br>
-		<a href="https://github.com/RudrakshTuwani" target="_blank"><i class="fab fa-github p-1" style="color: white;"></i></a>
-		<a href="https://www.linkedin.com/in/rudraksh-tuwani-888073bb/" target="_blank"><i class="fab fa-linkedin p-1" style="color: white;"></i></a>
-		<a href="https://medium.com/@rudrakshtuwani/latest" target="_blank"><i class="fab fa-medium-m p-1" style="color: white;"></i></a>
-		<a href="https://twitter.com/rudraksh_tuwani" target="_blank"><i class="fab fa-twitter p-1" style="color: white;"></i></a>
-	</p>
-</div>
-<div id="something">
 
-{% endblock %}
+		<div class="container-fluid bg-dark text-white" id="about">	
+		    <div class="row pb-5 pt-5">
+		        <div class="col-md-6">
+		            <img class="img-fluid" src="front-image.gif" style="width: 100%">
+		        </div>
+		        <div class="col-md-6">
+		        	<h1 class="text-center">ABOUT</h1>
+		            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis istud, quaeso, nesciebat? Aliter enim nosmet ipsos nosse non possumus. Quo plebiscito decreta a senatu est consuli quaestio Cn. Sed tempus est, si videtur, et recta quidem ad me. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Duo Reges: constructio interrete. Ut proverbia non nulla veriora sint quam vestra dogmata. Odium autem et invidiam facile vitabis. Itaque fecimus. Item de contrariis, a quibus ad genera formasque generum venerunt.
+		            </p>
+		            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis istud, quaeso, nesciebat? Aliter enim nosmet ipsos nosse non possumus. Quo plebiscito decreta a senatu est consuli quaestio Cn. Sed tempus est, si videtur, et recta quidem ad me. Cur tantas regiones barbarorum pedibus obiit, tot maria transmisit? Duo Reges: constructio interrete. Ut proverbia non nulla veriora sint quam vestra dogmata. Odium autem et invidiam facile vitabis. Itaque fecimus. Item de contrariis, a quibus ad genera formasque generum venerunt.
+		            </p>
+		        </div>
+		    </div>
+		</div>
+		<div class="container-fluid pt-5 pb-5" id="predict">
+			<div class="row pl-3 pr-3">
+				<div class="col-md-5">
+					<h1 class="text-center pb-3">PREDICT</h1>
+
+					<form action="" method="post" enctype="multipart/form-data">
+						{{ form.csrf_token }}
+					    <div class="form-group">
+					    	{{ form.url.label() }}
+					    	{{ form.url(class_="form-control", type="url") }}
+					  	</div>
+					    <p class="text-center">or</p>
+						<div class="form-group">
+							{{ form.image(class_="form-control-file") }}
+					    </div>
+					    {{ form.submit(class_="btn btn-dark btn-block") }}
+					</form>
+					<br>
+
+					<div class="progress">
+					  <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+					    0% Complete
+					  </div>
+					</div>
+				
+				</div>
+				<div class="col-md-7">
+					{% if not image_file %}
+						<img class="img-fluid" src="placeholder.png" style="width: 100%">
+					{% else %}
+		            <img class="img-fluid" src="{{ image_file }}" style="width: 100%">
+		            {% endif %}
+		        </div>
+
+			</div>
+		</div>
+		<div class="container-fluid bg-dark pb-1 mt-2" id="about">
+			<p class="text-center text-white text-small pt-2">© <a href="http://rudrakshtuwani.me/" target="_blank" style="color: white;">Rudraksh Tuwani</a><br>
+				<a href="https://github.com/RudrakshTuwani" target="_blank"><i class="fab fa-github p-1" style="color: white;"></i></a>
+				<a href="https://www.linkedin.com/in/rudraksh-tuwani-888073bb/" target="_blank"><i class="fab fa-linkedin p-1" style="color: white;"></i></a>
+				<a href="https://medium.com/@rudrakshtuwani/latest" target="_blank"><i class="fab fa-medium-m p-1" style="color: white;"></i></a>
+				<a href="https://twitter.com/rudraksh_tuwani" target="_blank"><i class="fab fa-twitter p-1" style="color: white;"></i></a>
+			</p>
+		</div>
+
+    	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    	<script type="text/javascript">
+    		$(document).ready(function() {
+				$('form').on('submit', function(event) {
+
+					event.preventDefault();
+
+					var formData = new FormData($('form')[0]);
+					
+					$.ajax({
+						xhr : function() {
+							var xhr = new window.XMLHttpRequest();
+
+							xhr.upload.addEventListener('progress', function(e) {
+
+								if (e.lengthComputable) {
+
+									console.log('Bytes Loaded: ' + e.loaded);
+									console.log('Total Size: ' + e.total);
+									console.log('Percentage Uploaded: ' + (e.loaded / e.total))
+
+									var percent = Math.round((e.loaded / e.total) * 100);
+
+									$('#progressBar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
+
+								}
+
+							});
+
+							return xhr;
+						},
+						type : 'POST',
+						url : '',
+						data : formData,
+						processData : false,
+						contentType : false,
+						success : function() {
+							alert('File uploaded!');
+						}
+					});
+				});
+			});
+    	</script>
+
+    	<!-- Scrolls predicted image div into view -->
+    	{% if scroll %}
+    	<script>
+    	  document.getElementById('{{ scroll }}').scrollIntoView();
+    	</script>
+    	{% endif %}
+
+    	
+    </body>
+</html>
