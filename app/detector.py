@@ -1,8 +1,17 @@
 import face_recognition
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageOps, ImageDraw, ImageFont
+import torch
+from torch.autograd import Variable
+import numpy as np
+import cv2
+from torchvision import transforms
+from app import model
 
 
 rect_color = (244, 113, 66)
+imgsize = 48, 48
+emotion_classes = ['Anger', 'Contempt', 'Disgust', 'Fear',
+                   'Happiness', 'Neutral', 'Sadness', 'Surprise']
 
 
 def detect_faces(image):
@@ -12,12 +21,44 @@ def detect_faces(image):
     return face_locations
 
 
-def draw_rects(image, face_locations, emotions=None):
+def process_face(gray_image, coords):
+    """ Crops and preprocesses detected faces """
+    face = gray_image[coords[0]:coords[2], coords[3]:coords[1]]
+    face = np.repeat(face[:, :, None], 3, axis=2)
+
+    # Convert to PIL Image and resize.
+    face = Image.fromarray(face)
+    resized = ImageOps.fit(face, imgsize, Image.ANTIALIAS)
+
+    # Transform it into a torch tensor
+    loader = transforms.Compose([transforms.ToTensor()])
+
+    return loader(resized).unsqueeze(0)
+
+
+def predict_emotion(image, model):
+    """ Predicts the emotion from an image tensor """
+
+    img_variable = Variable(image)
+    logprob = model.forward(img_variable).data.numpy()[0]
+    prob = np.exp(logprob)
+
+    return emotion_classes[prob.argmax()]
+
+
+def draw_rects(image, face_locations):
     """ Draws rectangles around the faces and writes detected
     emotion below it """
 
     # Placeholder
     emotions = ['Poker'] * len(face_locations)
+
+    # Convert to grayscale and extract faces
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    faces = [process_face(gray_image, coords)
+             for coords in face_locations]
+    emotions = [predict_emotion(face, model)
+                for face in faces]
 
     # Convert to PIL image
     pil_image = Image.fromarray(image[:, :, ::-1])
