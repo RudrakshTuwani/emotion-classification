@@ -207,7 +207,7 @@ statsmodels==0.8.0
 sympy==1.0
 tables==3.3.0
 tabulate==0.8.1
-tensorflow==1.0.1
+tensorflow==1.15.2
 termcolor==1.1.0
 terminado==0.6
 Theano==1.0.0
