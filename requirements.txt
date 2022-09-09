@@ -111,7 +111,7 @@ MarkupSafe==1.0
 marshmallow==2.14.0
 matplotlib==2.1.0
 missingno==0.3.8
-mistune==0.7.3
+mistune==0.8.1
 mpmath==0.19
 multipledispatch==0.4.9
 murmurhash==0.26.4
