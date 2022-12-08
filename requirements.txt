@@ -23,7 +23,7 @@ boto==2.48.0
 Bottleneck==1.2.0
 brewer2mpl==1.4.1
 bz2file==0.98
-certifi==2018.1.18
+certifi==2022.12.7
 cffi==1.11.4
 chardet==3.0.4
 chembl-webresource-client==0.9.23
